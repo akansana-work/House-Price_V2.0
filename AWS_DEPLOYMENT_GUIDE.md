@@ -52,7 +52,7 @@ Because Machine Learning libraries (like Scikit-Learn and NumPy) often have stri
 ```bash
 sudo apt update
 sudo apt upgrade -y
-sudo apt install git wget -y
+sudo apt install git wget build-essential -y
 ```
 
 2. Download and install Miniconda:
