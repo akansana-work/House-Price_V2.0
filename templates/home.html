@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boston House Price Predictor</title>
+    <title>Boston Real Estate AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -36,7 +36,7 @@
 
         .container {
             width: 90%;
-            max-width: 900px;
+            max-width: 600px;
             margin: 40px auto;
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -70,11 +70,12 @@
             color: var(--text-muted);
             margin: 0;
             font-size: 1.1em;
+            line-height: 1.5;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr;
             gap: 20px;
         }
 
@@ -85,14 +86,15 @@
 
         .input-group label {
             margin-bottom: 8px;
-            font-weight: 400;
-            font-size: 0.9em;
+            font-weight: 600;
+            font-size: 0.95em;
             color: var(--text-main);
         }
 
         .input-group label span {
             color: var(--text-muted);
-            font-size: 0.8em;
+            font-weight: 400;
+            font-size: 0.85em;
             margin-left: 5px;
         }
 
@@ -100,9 +102,9 @@
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
-            padding: 12px 16px;
+            padding: 14px 16px;
             color: var(--text-main);
-            font-size: 1em;
+            font-size: 1.05em;
             font-family: 'Outfit', sans-serif;
             transition: all 0.3s ease;
         }
@@ -119,7 +121,6 @@
         }
 
         .submit-btn {
-            grid-column: 1 / -1;
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
             color: white;
             border: none;
@@ -131,6 +132,7 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 20px;
+            width: 100%;
         }
 
         .submit-btn:hover {
@@ -172,62 +174,29 @@
 <div class="container">
     <div class="header">
         <h1>Boston Real Estate AI</h1>
-        <p>Enter the property and neighborhood details to generate an instant valuation</p>
+        <p>A demonstration of backend data injection.<br>Enter 4 basic fields, and the AI handles the rest.</p>
     </div>
 
     <form action="{{ url_for('predict')}}" method="post">
         <div class="form-grid">
             <div class="input-group">
-                <label>CRIM <span>(Crime Rate)</span></label>
-                <input type="text" name="CRIM" placeholder="e.g. 0.00632" required="required" />
+                <label>Number of Rooms <span>(Average per dwelling)</span></label>
+                <input type="text" name="RM" placeholder="e.g. 3" required="required" />
             </div>
+            
             <div class="input-group">
-                <label>ZN <span>(Residential Zoning %)</span></label>
-                <input type="text" name="ZN" placeholder="e.g. 18.0" required="required" />
+                <label>House Age Rating <span>(% built before 1940)</span></label>
+                <input type="text" name="Age" placeholder="e.g. 50" required="required" />
             </div>
+            
             <div class="input-group">
-                <label>INDUS <span>(Non-retail Business %)</span></label>
-                <input type="text" name="INDUS" placeholder="e.g. 2.31" required="required" />
+                <label>Commute Distance <span>(Weighted distance to employment)</span></label>
+                <input type="text" name="DIS" placeholder="e.g. 5.5" required="required" />
             </div>
+            
             <div class="input-group">
-                <label>CHAS <span>(River Bound: 1=Yes, 0=No)</span></label>
-                <input type="text" name="CHAS" placeholder="e.g. 0" required="required" />
-            </div>
-            <div class="input-group">
-                <label>NOX <span>(Nitric Oxides Concentration)</span></label>
-                <input type="text" name="NOX" placeholder="e.g. 0.538" required="required" />
-            </div>
-            <div class="input-group">
-                <label>RM <span>(Average Rooms)</span></label>
-                <input type="text" name="RM" placeholder="e.g. 6.575" required="required" />
-            </div>
-            <div class="input-group">
-                <label>Age <span>(Built pre-1940 %)</span></label>
-                <input type="text" name="Age" placeholder="e.g. 65.2" required="required" />
-            </div>
-            <div class="input-group">
-                <label>DIS <span>(Distance to Employment)</span></label>
-                <input type="text" name="DIS" placeholder="e.g. 4.09" required="required" />
-            </div>
-            <div class="input-group">
-                <label>RAD <span>(Highway Accessibility Index)</span></label>
-                <input type="text" name="RAD" placeholder="e.g. 1" required="required" />
-            </div>
-            <div class="input-group">
-                <label>TAX <span>(Property Tax Rate)</span></label>
-                <input type="text" name="TAX" placeholder="e.g. 296.0" required="required" />
-            </div>
-            <div class="input-group">
-                <label>PTRATIO <span>(Pupil-Teacher Ratio)</span></label>
-                <input type="text" name="PTRATIO" placeholder="e.g. 15.3" required="required" />
-            </div>
-            <div class="input-group">
-                <label>B <span>(Demographic Index)</span></label>
-                <input type="text" name="B" placeholder="e.g. 396.9" required="required" />
-            </div>
-            <div class="input-group">
-                <label>LSTAT <span>(Lower Status Population %)</span></label>
-                <input type="text" name="LSTAT" placeholder="e.g. 4.98" required="required" />
+                <label>Property Tax Rate <span>(Per $10,000)</span></label>
+                <input type="text" name="TAX" placeholder="e.g. 300" required="required" />
             </div>
 
             <button type="submit" class="submit-btn">Run AI Valuation</button>
