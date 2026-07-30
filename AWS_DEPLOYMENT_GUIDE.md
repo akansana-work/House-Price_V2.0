@@ -45,27 +45,41 @@ By default, we will run Gunicorn on port 8000. We need to tell the AWS firewall 
    ```
    *Type `yes` when prompted if you want to continue connecting.*
 
-## Step 4: Prepare the Server
-Run these commands one by one to update the server and install Python:
+## Step 4: Prepare the Server & Install Miniconda
+Because Machine Learning libraries (like Scikit-Learn and NumPy) often have strict version dependencies, we will use **Miniconda** to create a highly stable Python 3.10 environment, rather than the default system Python.
+
+1. Update the server and install basic tools:
 ```bash
 sudo apt update
 sudo apt upgrade -y
-sudo apt install python3-pip python3-venv git -y
+sudo apt install git wget -y
+```
+
+2. Download and install Miniconda:
+```bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda
+```
+
+3. Activate Miniconda in your current shell:
+```bash
+source $HOME/miniconda/bin/activate
+conda init
 ```
 
 ## Step 5: Download the Project
 Clone your repository onto the server:
 ```bash
-git clone https://github.com/KalyanMurapaka45/House-Price-Prediction.git
-cd House-Price-Prediction
+git clone https://github.com/akansana-work/House-Price_V2.0.git
+cd House-Price_V2.0
 ```
-*(If your code is in a different repository, replace the link above with yours).*
+*(Make sure to use your updated repository URL).*
 
-## Step 6: Set up the Python Environment
-Create an isolated virtual environment and install the required libraries:
+## Step 6: Set up the ML Python Environment
+Create an isolated Conda environment specifically for Python 3.10 to prevent dependency conflicts (e.g., `sklearn` and `numpy` version mismatches) that often occur with default `venv`:
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+conda create -n ml_env python=3.10 -y
+conda activate ml_env
 pip install -r requirements.txt
 ```
 
