@@ -1,6 +1,6 @@
 Flask
 pandas
-numpy
+numpy<2.0.0
 matplotlib
 scikit-learn==1.2.2
 catboost
