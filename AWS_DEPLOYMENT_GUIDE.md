@@ -78,7 +78,7 @@ cd House-Price_V2.0
 ## Step 6: Set up the ML Python Environment
 Create an isolated Conda environment specifically for Python 3.10 to prevent dependency conflicts (e.g., `sklearn` and `numpy` version mismatches) that often occur with default `venv`:
 ```bash
-conda create -n ml_env python=3.10 -y
+conda create -c conda-forge -n ml_env python=3.10 -y
 conda activate ml_env
 pip install -r requirements.txt
 ```
