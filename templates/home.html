@@ -1,101 +1,248 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
-    <title>House Price Prediction</title>
-    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boston House Price Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-      .login {
-        width: 400px;
-        margin: 30px auto;
-        font-family: 'Open Sans Condensed', sans-serif;
-      }
-      
-      h1 {
-        font-size: 2em;
-        text-align: center;
-        font-family: 'Pacifico', cursive;
-        color: #3b3e47;
-        margin-bottom: 50px;
-      }
-      
-      input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 20px;
-        border: none;
-        border-bottom: 2px solid #3b3e47;
-        font-size: 1.2em;
-        font-family: 'Arimo', sans-serif;
-      }
-      
-      button[type="submit"] {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        background-color: #3b3e47;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 1.2em;
-        font-family: 'Arimo', sans-serif;
-        cursor: pointer;
-      }
-      .result-text {
-    font-size: 1.5em;
-    font-weight: bold;
-    text-align: center;
-    color: #3b3e47;
-    margin-top: 50px;
-  }
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
 
-      body {
-  background-color: rgba(255, 255, 255, 0.9);
-}
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.8s ease-out;
+        }
 
-      
-      button[type="submit"]:hover {
-        background-color: #2b2e37;
-      }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: 400;
+            font-size: 0.9em;
+            color: var(--text-main);
+        }
+
+        .input-group label span {
+            color: var(--text-muted);
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        .input-group input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-size: 1em;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(148, 163, 184, 0.4);
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1.2em;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(99, 102, 241, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .result-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .result-text {
+            display: inline-block;
+            font-size: 1.5em;
+            font-weight: 600;
+            padding: 20px 40px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            color: #34d399;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(52, 211, 153, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+        }
+
     </style>
-  </head>
-
+</head>
 <body>
- <div class="login">
-	<h1>Boston House Price Prediction</h1>
 
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-      <input type="text" name="CRIM" placeholder="CRIM" required="required" /><br>
-    	<input type="text" name="ZN" placeholder="ZN" required="required" /><br>
-        <input type="text" name="INDUS" placeholder="INDUS" required="required" /><br>
-        <input type="text" name="CHAS" placeholder="CHAS" required="required" /><br>
-        <input type="text" name="NOX" placeholder="NOX" required="required" /><br>
-        <input type="text" name="RM" placeholder="RM" required="required" /><br>
-        <input type="text" name="Age" placeholder="Age" required="required" /><br>
-        <input type="text" name="DIS" placeholder="DIS" required="required" /><br>
-        <input type="text" name="RAD" placeholder="RAD" required="required" /><br>
-        <input type="text" name="TAX" placeholder="TAX" required="required" /><br>
-        <input type="text" name="PTRATIO" placeholder="PTRATIO" required="required" /><br>
-        <input type="text" name="B" placeholder="B" required="required" /><br>
-        <input type="text" name="LSTAT" placeholder="LSTAT" required="required" /><br>
+<div class="container">
+    <div class="header">
+        <h1>Boston Real Estate AI</h1>
+        <p>Enter the property and neighborhood details to generate an instant valuation</p>
+    </div>
 
-       
+    <form action="{{ url_for('predict')}}" method="post">
+        <div class="form-grid">
+            <div class="input-group">
+                <label>CRIM <span>(Crime Rate)</span></label>
+                <input type="text" name="CRIM" placeholder="e.g. 0.00632" required="required" />
+            </div>
+            <div class="input-group">
+                <label>ZN <span>(Residential Zoning %)</span></label>
+                <input type="text" name="ZN" placeholder="e.g. 18.0" required="required" />
+            </div>
+            <div class="input-group">
+                <label>INDUS <span>(Non-retail Business %)</span></label>
+                <input type="text" name="INDUS" placeholder="e.g. 2.31" required="required" />
+            </div>
+            <div class="input-group">
+                <label>CHAS <span>(River Bound: 1=Yes, 0=No)</span></label>
+                <input type="text" name="CHAS" placeholder="e.g. 0" required="required" />
+            </div>
+            <div class="input-group">
+                <label>NOX <span>(Nitric Oxides Concentration)</span></label>
+                <input type="text" name="NOX" placeholder="e.g. 0.538" required="required" />
+            </div>
+            <div class="input-group">
+                <label>RM <span>(Average Rooms)</span></label>
+                <input type="text" name="RM" placeholder="e.g. 6.575" required="required" />
+            </div>
+            <div class="input-group">
+                <label>Age <span>(Built pre-1940 %)</span></label>
+                <input type="text" name="Age" placeholder="e.g. 65.2" required="required" />
+            </div>
+            <div class="input-group">
+                <label>DIS <span>(Distance to Employment)</span></label>
+                <input type="text" name="DIS" placeholder="e.g. 4.09" required="required" />
+            </div>
+            <div class="input-group">
+                <label>RAD <span>(Highway Accessibility Index)</span></label>
+                <input type="text" name="RAD" placeholder="e.g. 1" required="required" />
+            </div>
+            <div class="input-group">
+                <label>TAX <span>(Property Tax Rate)</span></label>
+                <input type="text" name="TAX" placeholder="e.g. 296.0" required="required" />
+            </div>
+            <div class="input-group">
+                <label>PTRATIO <span>(Pupil-Teacher Ratio)</span></label>
+                <input type="text" name="PTRATIO" placeholder="e.g. 15.3" required="required" />
+            </div>
+            <div class="input-group">
+                <label>B <span>(Demographic Index)</span></label>
+                <input type="text" name="B" placeholder="e.g. 396.9" required="required" />
+            </div>
+            <div class="input-group">
+                <label>LSTAT <span>(Lower Status Population %)</span></label>
+                <input type="text" name="LSTAT" placeholder="e.g. 4.98" required="required" />
+            </div>
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+            <button type="submit" class="submit-btn">Run AI Valuation</button>
+        </div>
     </form>
 
-   <br>
-   <br>
-  
-   
- </div>
- <p class="result-text">{{prediction_text}}</p>
+    {% if prediction_text %}
+    <div class="result-container">
+        <div class="result-text">
+            {{ prediction_text }}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
 
 </body>
 </html>
