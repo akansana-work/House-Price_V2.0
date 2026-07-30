@@ -23,11 +23,20 @@ def predict_api():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    # 1. Get the 4 user-friendly inputs from the frontend
-    rm = float(request.form.get('RM', 6.0))
-    age = float(request.form.get('Age', 50.0))
-    dis = float(request.form.get('DIS', 5.0))
-    tax = float(request.form.get('TAX', 300.0))
+    # Retrieve the user inputs
+    rm_input = request.form.get('RM')
+    age_input = request.form.get('Age')
+    dis_input = request.form.get('DIS')
+    tax_input = request.form.get('TAX')
+    
+    # 1. Backend Validation: Make sure the user actually selected options
+    if not rm_input or not age_input or not dis_input or not tax_input:
+        return render_template("home.html", prediction_text="Error: Please select an option for all 4 fields before running the AI.")
+        
+    rm = float(rm_input)
+    age = float(age_input)
+    dis = float(dis_input)
+    tax = float(tax_input)
     
     # 2. Hardcode the remaining 9 features (using Boston dataset averages)
     # This simulates the backend fetching complex neighborhood data from a DB or API
